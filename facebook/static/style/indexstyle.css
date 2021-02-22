@@ -1,0 +1,25 @@
+.main{
+    font-size: small; 
+    margin-top: 10px;
+    color: blueviolet;
+}
+.logo
+{
+    font-family: 'Poppins', sans-serif; 
+    color:rgb(250, 248, 248); 
+    padding-left: 150px; 
+    padding-top: 30px;
+}
+
+.link 
+{
+    text-decoration: none;
+    color: white;
+}
+.link a:hover
+{
+    color: white;
+}
+.link a{
+    text-decoration: none;
+}
