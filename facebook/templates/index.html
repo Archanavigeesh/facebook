@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facebook</title>
     <link rel="stylesheet" href="{% static 'style/indexstyle.css' %}">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -22,20 +22,22 @@
         </div>
         <!--login-->
         <div class="col-lg-2 main" style="font-size: small; margin-top: 10px;color: white;">
-            <label class="form-label">Email or Phone</label>
-            <input type="text" id="inputEmail1" style="width: 100%;">
+            <form action="home" method="GET">
+            <label class="form-label" for="log-email">Email or Phone</label>
+            <input type="text" id="log-email" style="width: 100%;">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck" alt="Check me out">Check me out
+                <input class="form-check-input" type="checkbox" id="check" alt="Check me out">Check me out
             </div>
         </div>
         <div class="col-lg-2" style="font-size: small; margin-top: 10px;">
-            <label class="form-label">Password</label>
-            <input type="password" id="inputPassword4" style="width: 100%;">
+            <label class="form-label" for="log-pass">Password</label>
+            <input type="password" id="log-pass" style="width: 100%;">
             <a href="#" style="text-decoration: none; color: white;">Forgotten your password?</a>
         </div>
         <div class="col-lg-2 container">
             <button type="button" style="background-color: 	#596b94; margin-top: 40px; border:1px solid black; color:white;">Login</button>
         </div>
+        </form>
     </div>
     <!--content-->
     <div class="row"> 
@@ -45,35 +47,36 @@
         <div class="col-lg-6"> 
             <h1>Create an account</h1>
             <h5>It's free and always will be.</h5>
-            <form>
+            <form method="POST" action="index" name="signin">
+                {% csrf_token %}
                 <div class="form-row">
                     <div class="col-lg-5">
-                        <input type="text" class="form-control" id="validationDefault01" placeholder="First name" required>
+                        <input type="text" class="form-control" id="f_name" placeholder="First name" required>
                     </div>
                     <div class="col-lg-5">
-                        <input type="text" class="form-control" id="validationDefault01" placeholder="Surname" required  style="margin-bottom: 10px;">
+                        <input type="text" class="form-control" id="s_name" placeholder="Surname" required  style="margin-bottom: 10px;">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="validationDefault01" placeholder="Email or mobile number" required style="margin-bottom: 10px;">
+                        <input type="text" class="form-control" name="username" id="username" placeholder="Email or mobile number" required style="margin-bottom: 10px;" onsubmit="ValidateEmail(document.signin.username)">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="validationDefault01" placeholder="Re-enter email or mobile number" required style="margin-bottom: 10px;">
+                        <input type="text" class="form-control" id="emailreenter" placeholder="Re-enter email or mobile number" required style="margin-bottom: 10px;">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="validationDefault01" placeholder="New password" required style="margin-bottom: 10px;">
+                        <input type="password" pattern="(?=.*\d)(?=.*[a-z]).{8,}" class="form-control" id="password" placeholder="New password" required style="margin-bottom: 10px;">
                     </div>
                 </div>
                 <h4>Birthday</h4>
                 <div class="form-row">
                     <div class="col-lg-4">
-                        <select value="Day"> 
-                            <option id="0">Day</option>
+                        <select value="Day" id="day" required> 
+                            <option disabled selected hidden>Day</option>
                             <script>
                                 for(i=1;i<=31;i++)
                                 {
@@ -81,7 +84,7 @@
                                 }
                             </script>
                         </select>
-                        <select value="Month"> 
+                        <select value="Month" id="month" required> 
                             <option id="0">Month</option>
                             <option id="1">January</option>
                             <option id="2">February</option>
@@ -89,7 +92,7 @@
                             <option id="4">April</option>
                             <option id="5">May</option>
                         </select>
-                        <select value="Year"> 
+                        <select value="Year" id="year" required> 
                             <option id="0">Year</option>
                             <script>
                                 for(i=2001;i>=1950;i--)
@@ -105,8 +108,7 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <input type="radio" name="gender" id="female">
-                        <label>Female</label>
+                        <input type="radio" name="gender" id="female"><label>Female</label>
                         <input type="radio" name="gender" id="male"><label>Male</label>
                     </div>
                 </div>
@@ -117,7 +119,7 @@
                 </div>
                 <div class="form-row">
                     <div class="col-lg">
-                        <button class="btn" style="background-color: rgb(30, 155, 30); color: white; border: 1px solid black;">Create an account</button>
+                        <button type="submit" id="signinbtn" class="btn" style="background-color: rgb(30, 155, 30); color: white; border: 1px solid black;">Create an account</button>
                     </div>
                 </div>
                 <div class="form-row">
@@ -131,5 +133,33 @@
         </div>
     </div>
 </div>
+<script>
+        password=document.getElementById("password")
+        password.onkeyup = function() {
+            var lowerCaseLetters = /[a-z]/g;
+            var numbers = /[0-9]/g;
+            if(password.value.match(lowerCaseLetters) && password.value.match(numbers) && password.value.length >= 8) 
+            {              }
+                else if(password.value.match(lowerCaseLetters) || password.value.match(numbers) || password.value.length >= 8){
+
+            }
+        }
+        username=document.getElementById("username")
+        signinbtn.onsubmit= function(){
+            var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;  
+            if(username.match(mailformat))
+            {
+              alert("Valid email address!");
+              document.signin.username.focus();
+              return true;
+            }
+            else
+            {
+              alert("You have entered an invalid email address!");
+              document.signin.username.focus();
+              return false;
+            }
+        }
+    </script>
 </body>
 </html>
