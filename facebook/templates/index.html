@@ -22,7 +22,8 @@
         </div>
         <!--login-->
         <div class="col-lg-2 main" style="font-size: small; margin-top: 10px;color: white;">
-            <form action="home" method="GET">
+            <form action="home" method="POST">
+                {% csrf_token %}
             <label class="form-label" for="log-email">Email or Phone</label>
             <input type="text" id="log-email" style="width: 100%;">
             <div class="form-check">
@@ -47,14 +48,14 @@
         <div class="col-lg-6"> 
             <h1>Create an account</h1>
             <h5>It's free and always will be.</h5>
-            <form method="POST" action="index" name="signin">
+            <form method="POST" action="home">
                 {% csrf_token %}
                 <div class="form-row">
                     <div class="col-lg-5">
-                        <input type="text" class="form-control" id="f_name" placeholder="First name" required>
+                        <input type="text" class="form-control" name="f_name" id="f_name" placeholder="First name" required>
                     </div>
                     <div class="col-lg-5">
-                        <input type="text" class="form-control" id="s_name" placeholder="Surname" required  style="margin-bottom: 10px;">
+                        <input type="text" class="form-control" name="s_name" id="s_name" placeholder="Surname" required  style="margin-bottom: 10px;">
                     </div>
                 </div>
                 <div class="form-row">
@@ -64,18 +65,18 @@
                 </div>
                 <div class="form-row">
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="emailreenter" placeholder="Re-enter email or mobile number" required style="margin-bottom: 10px;">
+                        <input type="text" class="form-control" name="emailreenter" id="emailreenter" placeholder="Re-enter email or mobile number" required style="margin-bottom: 10px;">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-lg-10">
-                        <input type="password" pattern="(?=.*\d)(?=.*[a-z]).{8,}" class="form-control" id="password" placeholder="New password" required style="margin-bottom: 10px;">
+                        <input type="password" pattern="(?=.*\d)(?=.*[a-z]).{8,}" class="form-control" name="password" id="password" placeholder="New password" required style="margin-bottom: 10px;">
                     </div>
                 </div>
                 <h4>Birthday</h4>
                 <div class="form-row">
                     <div class="col-lg-4">
-                        <select value="Day" id="day" required> 
+                        <select value="Day" name="day" id="day" required> 
                             <option disabled selected hidden>Day</option>
                             <script>
                                 for(i=1;i<=31;i++)
@@ -84,7 +85,7 @@
                                 }
                             </script>
                         </select>
-                        <select value="Month" id="month" required> 
+                        <select value="Month" name="month" id="month" required> 
                             <option id="0">Month</option>
                             <option id="1">January</option>
                             <option id="2">February</option>
@@ -92,7 +93,7 @@
                             <option id="4">April</option>
                             <option id="5">May</option>
                         </select>
-                        <select value="Year" id="year" required> 
+                        <select value="Year" name="year" id="year" required> 
                             <option id="0">Year</option>
                             <script>
                                 for(i=2001;i>=1950;i--)
@@ -119,7 +120,7 @@
                 </div>
                 <div class="form-row">
                     <div class="col-lg">
-                        <button type="submit" id="signinbtn" class="btn" style="background-color: rgb(30, 155, 30); color: white; border: 1px solid black;">Create an account</button>
+                        <button type="submit" name="submit" id="signupbtn" class="btn" style="background-color: rgb(30, 155, 30); color: white; border: 1px solid black;">Create an account</button>
                     </div>
                 </div>
                 <div class="form-row">
@@ -133,7 +134,7 @@
         </div>
     </div>
 </div>
-<script>
+<!--<script>
         password=document.getElementById("password")
         password.onkeyup = function() {
             var lowerCaseLetters = /[a-z]/g;
@@ -160,6 +161,6 @@
               return false;
             }
         }
-    </script>
+    </script>-->
 </body>
 </html>

@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'facebook',
         'USER': 'root',
-        'PASSWORD' : '',
+        'PASSWORD': '',
         'HOST' : 'localhost',
     }
 }
